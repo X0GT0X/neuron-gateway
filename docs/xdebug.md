@@ -11,6 +11,10 @@ On Linux and Mac:
 ```
 XDEBUG_MODE=debug docker compose up -d
 ```
+or
+```
+make up-with-xdebug
+```
 
 On Windows:
 
