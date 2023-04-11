@@ -64,3 +64,7 @@ php-stan:
 
 php-stan-baseline:
 	$(PHP_CONT) vendor/bin/phpstan analyse --generate-baseline
+
+## —— Testing` 🚀 ——————————————————————————————————————————————————————————————
+test-unit:
+	$(PHP_CONT) php bin/phpunit
