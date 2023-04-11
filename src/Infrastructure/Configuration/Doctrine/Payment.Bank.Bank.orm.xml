@@ -1,0 +1,14 @@
+<doctrine-mapping xmlns="https://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <embeddable name="App\Domain\Payment\Bank\Bank">
+
+        <field name="id" type="bank_id" />
+
+        <field name="isReadOnly" type="boolean" column="is_read_only" />
+
+    </embeddable>
+
+</doctrine-mapping>
