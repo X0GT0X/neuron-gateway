@@ -4,6 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    timezone: '%env(APP_TIMEZONE)%'
 
 services:
     # default configuration for services in *this* file
@@ -20,10 +21,19 @@ services:
     App\:
         resource: '../src/'
         exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
+            - '../src/Infrastructure/Migration/'
             - '../src/Kernel.php'
 
     App\UserInterface\Controller\:
         resource: '../src/UserInterface/Controller/'
         tags: ['controller.service_arguments']
+
+    app.domain_event_notifications_resolver:
+        class: App\BuildingBlocks\Infrastructure\DomainEventDispatching\DomainEventNotificationsResolver
+        arguments:
+            - '%app.domain_event_notifications%'
+
+    App\BuildingBlocks\Infrastructure\DomainEventDispatching\DomainEventNotificationsResolverInterface: '@app.domain_event_notifications_resolver'
+    
+imports:
+    - { resource: ../src/Infrastructure/Configuration/DomainEventsDispatching/domain_event_notifications.yaml }
