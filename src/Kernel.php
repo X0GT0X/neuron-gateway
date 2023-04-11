@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App;
 
 use App\Infrastructure\Configuration\DependencyInjection\CommandHandlerDecoratorPass;
@@ -14,7 +16,7 @@ class Kernel extends BaseKernel
     public function boot(): void
     {
         parent::boot();
-        date_default_timezone_set($this->getContainer()->getParameter('timezone'));
+        \date_default_timezone_set($this->getContainer()->getParameter('timezone')); /** @phpstan-ignore-line */
     }
 
     protected function build(ContainerBuilder $container): void

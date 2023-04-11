@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\UserInterface\Controller;
 
 use App\Application\Contract\GatewayModuleInterface;
@@ -14,8 +16,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final readonly class PaymentController
 {
-    public function __construct(private GatewayModuleInterface $gatewayModule)
-    {
+    public function __construct(
+        private GatewayModuleInterface $gatewayModule
+    ) {
     }
 
     #[Route('/payments', methods: ['POST'])]
@@ -37,7 +40,7 @@ final readonly class PaymentController
         ));
 
         return new JsonResponse([
-            'paymentId' => $paymentId
+            'paymentId' => $paymentId,
         ]);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\BuildingBlocks\Application\Event;
 
 use App\BuildingBlocks\Domain\DomainEventInterface;

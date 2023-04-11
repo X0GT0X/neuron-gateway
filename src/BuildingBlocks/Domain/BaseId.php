@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\BuildingBlocks\Domain;
 
 use Symfony\Component\Uid\Uuid;
 
-class BaseId
+class BaseId implements \Stringable
 {
     private Uuid $value;
 
@@ -13,18 +15,18 @@ class BaseId
         $this->value = $value;
     }
 
+    public function __toString(): string
+    {
+        return (string) $this->value;
+    }
+
     public function getValue(): Uuid
     {
         return $this->value;
     }
 
-    public function equals(BaseId $other): bool
+    public function equals(self $other): bool
     {
         return $this->value->equals($other->value);
-    }
-
-    public function __toString(): string
-    {
-        return (string) $this->value;
     }
 }

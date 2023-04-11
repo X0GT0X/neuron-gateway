@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\Payment;
 
 use App\BuildingBlocks\Domain\AggregateRootInterface;
@@ -31,19 +33,7 @@ class Payment extends Entity implements AggregateRootInterface
 
     private \DateTimeImmutable $createdAt;
 
-    private ?\DateTimeImmutable $updatedAt;
-
-    public static function createNew(
-        Currency $currency,
-        int $amount,
-        PaymentType $type,
-        string $uniqueReference,
-        PayerId $payerId,
-        ?BankId $bankId
-    ): self
-    {
-        return new self($currency, $amount, $type, $uniqueReference, $payerId, $bankId);
-    }
+    private ?\DateTimeImmutable $updatedAt = null;
 
     private function __construct(
         Currency $currency,
@@ -60,7 +50,7 @@ class Payment extends Entity implements AggregateRootInterface
         $this->uniqueReference = $uniqueReference;
         $this->payerId = $payerId;
         $this->status = PaymentStatus::NEW_PAYMENT;
-        $this->bank = $bankId !== null ? Bank::create($bankId, true) : null;
+        $this->bank = null !== $bankId ? Bank::create($bankId, true) : null;
         $this->createdAt = new \DateTimeImmutable();
 
         $this->addDomainEvent(new PaymentCreatedDomainEvent(
@@ -72,5 +62,16 @@ class Payment extends Entity implements AggregateRootInterface
             $this->payerId,
             $this->bank?->id,
         ));
+    }
+
+    public static function createNew(
+        Currency $currency,
+        int $amount,
+        PaymentType $type,
+        string $uniqueReference,
+        PayerId $payerId,
+        ?BankId $bankId
+    ): self {
+        return new self($currency, $amount, $type, $uniqueReference, $payerId, $bankId);
     }
 }

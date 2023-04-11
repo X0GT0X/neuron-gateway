@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\Payment\Event;
 
 use App\BuildingBlocks\Domain\DomainEventBase;
@@ -19,7 +21,6 @@ class PaymentCreatedDomainEvent extends DomainEventBase
         public readonly string $uniqueReference,
         public readonly PayerId $payerId,
         public readonly ?BankId $bankId,
-
     ) {
         parent::__construct();
     }

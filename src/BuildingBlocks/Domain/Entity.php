@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\BuildingBlocks\Domain;
 
 class Entity
 {
     /** @var DomainEventInterface[] */
-    private array $domainEvents;
+    private array $domainEvents = [];
 
     public function addDomainEvent(DomainEventInterface $domainEvent): void
     {
@@ -18,12 +20,19 @@ class Entity
     }
 
     /**
+     * @return DomainEventInterface[]
+     */
+    public function getDomainEvents(): array
+    {
+        return $this->domainEvents;
+    }
+
+    /**
      * @throws BusinessRuleValidationException
      */
     protected function checkRule(BusinessRuleInterface $rule): void
     {
-        if ($rule->isBroken())
-        {
+        if ($rule->isBroken()) {
             throw new BusinessRuleValidationException($rule);
         }
     }
@@ -33,17 +42,8 @@ class Entity
      */
     protected function checkRules(BusinessRuleInterface ...$rules): void
     {
-        foreach ($rules as $rule)
-        {
+        foreach ($rules as $rule) {
             $this->checkRule($rule);
         }
-    }
-
-    /**
-     * @return DomainEventInterface[]
-     */
-    public function getDomainEvents(): array
-    {
-        return $this->domainEvents;
     }
 }

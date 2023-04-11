@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Application\Payment\InitiatePayment;
 
 use App\Application\Configuration\CommandHandlerInterface;

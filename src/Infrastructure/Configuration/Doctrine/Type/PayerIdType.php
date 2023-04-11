@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Configuration\Doctrine\Type;
 
 use App\Domain\Payer\PayerId;
@@ -14,11 +16,17 @@ class PayerIdType extends GuidType
         return 'payer_id';
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): string
+    /**
+     * @param PayerId $value
+     */
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): Uuid
     {
         return $value->getValue();
     }
 
+    /**
+     * @param string $value
+     */
     public function convertToPHPValue($value, AbstractPlatform $platform): PayerId
     {
         return new PayerId(Uuid::fromString($value));

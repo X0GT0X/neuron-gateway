@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Configuration\Doctrine\Type;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -26,7 +28,7 @@ abstract class AbstractEnumType extends Type
     public function convertToPHPValue($value, AbstractPlatform $platform): ?\BackedEnum
     {
         if (false === \enum_exists($this::getEnumClass())) {
-            throw new \LogicException(sprintf('Class %s should be an enum', $this::getEnumClass()));
+            throw new \LogicException(\sprintf('Class %s should be an enum', $this::getEnumClass()));
         }
 
         return $this::getEnumClass()::tryFrom($value ?? '');

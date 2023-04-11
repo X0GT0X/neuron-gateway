@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\BuildingBlocks\Infrastructure\DomainEventDispatching;
 
 use App\BuildingBlocks\Application\Event\AbstractDomainEventNotification;
@@ -11,9 +13,13 @@ class DomainEventNotificationsResolver implements DomainEventNotificationsResolv
     /** @var string[] */
     private array $domainEventNotifications = [];
 
-    public function __construct(array ...$domainEventNotifications) {
-        foreach ($domainEventNotifications as $notifications) {
-            array_push($this->domainEventNotifications, ...$notifications);
+    /**
+     * @param string[] ...$domainEventNotifications
+     */
+    public function __construct(array ...$domainEventNotifications)
+    {
+        foreach ($domainEventNotifications as $notification) {
+            \array_push($this->domainEventNotifications, ...$notification);
         }
     }
 
@@ -21,6 +27,7 @@ class DomainEventNotificationsResolver implements DomainEventNotificationsResolv
     {
         foreach ($this->domainEventNotifications as $notification) {
             $reflection = new \ReflectionClass($notification);
+
             if ($reflection->isSubclassOf(AbstractDomainEventNotification::class)) {
                 $domainEventNotificationAttribute = $reflection->getAttributes(DomainEventNotification::class)[0];
 

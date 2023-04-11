@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Configuration\DomainEventsDispatching;
 
 use App\BuildingBlocks\Domain\Entity;
@@ -21,7 +23,7 @@ final readonly class DomainEventsAccessor implements DomainEventsAccessorInterfa
 
         foreach ($persistedEntities as $entity) {
             if ($entity instanceof Entity) {
-                array_push($domainEvents, ...$entity->getDomainEvents());
+                \array_push($domainEvents, ...$entity->getDomainEvents());
             }
         }
 

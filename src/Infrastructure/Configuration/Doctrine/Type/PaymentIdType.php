@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Configuration\Doctrine\Type;
 
 use App\Domain\Payment\PaymentId;
@@ -14,11 +16,17 @@ class PaymentIdType extends GuidType
         return 'payment_id';
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): string
+    /**
+     * @param PaymentId $value
+     */
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): Uuid
     {
         return $value->getValue();
     }
 
+    /**
+     * @param string $value
+     */
     public function convertToPHPValue($value, AbstractPlatform $platform): PaymentId
     {
         return new PaymentId(Uuid::fromString($value));

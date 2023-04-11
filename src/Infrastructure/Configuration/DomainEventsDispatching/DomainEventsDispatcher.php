@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Configuration\DomainEventsDispatching;
 
 use App\BuildingBlocks\Application\Event\DomainEventNotificationInterface;
@@ -14,7 +16,7 @@ final readonly class DomainEventsDispatcher implements DomainEventsDispatcherInt
 {
     public function __construct(
         private MessageBusInterface $eventBus,
-//        private OutboxInterface $outbox,
+        //        private OutboxInterface $outbox,
         private DomainEventsAccessorInterface $domainEventsAccessor,
         private DomainEventNotificationsResolverInterface $notificationsResolver,
     ) {
@@ -26,12 +28,12 @@ final readonly class DomainEventsDispatcher implements DomainEventsDispatcherInt
 
         /** @var DomainEventNotificationInterface[] $domainEventNotifications */
         $domainEventNotifications = [];
+
         foreach ($domainEvents as $domainEvent) {
             try {
                 $domainEventNotification = $this->notificationsResolver->getNotificationTypeByDomainEvent($domainEvent);
                 $domainEventNotifications[] = new $domainEventNotification($domainEvent->getId(), $domainEvent);
-            }
-            catch (DomainEventNotificationNotFoundException) {
+            } catch (DomainEventNotificationNotFoundException) {
                 continue;
             }
         }
@@ -41,9 +43,5 @@ final readonly class DomainEventsDispatcher implements DomainEventsDispatcherInt
         foreach ($domainEvents as $domainEvent) {
             $this->eventBus->dispatch($domainEvent);
         }
-
-//        foreach ($domainEventNotifications as $domainEventNotification) {
-//            $this->outbox->add($domainEventNotification);
-//        }
     }
 }

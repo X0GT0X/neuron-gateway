@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure;
 
 use App\Application\Contract\CommandInterface;
@@ -14,7 +16,8 @@ class GatewayModule implements GatewayModuleInterface
     public function __construct(
         private readonly MessageBusInterface $commandBus,
         private readonly MessageBusInterface $queryBus,
-    ) {}
+    ) {
+    }
 
     public function executeCQuery(QueryInterface $query): mixed
     {

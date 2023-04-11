@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Configuration\DependencyInjection;
 
 use App\Infrastructure\Configuration\Decorator\UnitOfWorkCommandHandlerDecorator;
@@ -15,7 +17,7 @@ class CommandHandlerDecoratorPass implements CompilerPassInterface
         );
 
         foreach ($taggedServices as $id => $tags) {
-            if ($id === UnitOfWorkCommandHandlerDecorator::class) {
+            if (UnitOfWorkCommandHandlerDecorator::class === $id) {
                 continue;
             }
 
@@ -32,16 +34,16 @@ class CommandHandlerDecoratorPass implements CompilerPassInterface
         $serviceAlias = $this->generateLowercaseName($serviceName);
         $decoratorAlias = $this->generateLowercaseName($decoratorName);
 
-        return $serviceAlias . '_' . $decoratorAlias;
+        return $serviceAlias.'_'.$decoratorAlias;
     }
 
     private function generateLowercaseName(string $serviceName): string
     {
-        if (str_contains($serviceName, '\\')) {
-            $parts = explode('\\', $serviceName);
-            $className = end($parts);
-            $lowercaseName = strtolower(
-                preg_replace('/[A-Z]/', '_\\0', lcfirst($className))
+        if (\str_contains($serviceName, '\\')) {
+            $parts = \explode('\\', $serviceName);
+            $className = \end($parts);
+            $lowercaseName = \mb_strtolower(
+                \preg_replace('/[A-Z]/', '_\\0', \lcfirst($className)) ?? throw new \LogicException(\sprintf('Class name %s cannot be transformed to lowercase', $className))
             );
         } else {
             $lowercaseName = $serviceName;

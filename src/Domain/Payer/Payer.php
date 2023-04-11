@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\Payer;
 
 use App\BuildingBlocks\Domain\AggregateRootInterface;
@@ -19,18 +21,7 @@ class Payer extends Entity implements AggregateRootInterface
 
     private \DateTimeImmutable $createdAt;
 
-    private ?\DateTimeImmutable $updatedAt;
-
-    public static function createNew(string $reference, ?string $email, ?string $name): self
-    {
-        return new Payer($reference, $email, $name);
-    }
-
-    public function update(?string $email, ?string $name)
-    {
-        $this->email = $email ?? $this->email;
-        $this->name = $name ?? $this->name;
-    }
+    private ?\DateTimeImmutable $updatedAt = null;
 
     private function __construct(string $reference, ?string $email, ?string $name)
     {
@@ -46,5 +37,16 @@ class Payer extends Entity implements AggregateRootInterface
             $this->email,
             $this->name
         ));
+    }
+
+    public static function createNew(string $reference, ?string $email, ?string $name): self
+    {
+        return new self($reference, $email, $name);
+    }
+
+    public function update(?string $email, ?string $name): void
+    {
+        $this->email = $email ?? $this->email;
+        $this->name = $name ?? $this->name;
     }
 }
