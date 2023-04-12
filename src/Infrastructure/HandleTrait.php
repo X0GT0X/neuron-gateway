@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure;
 
 use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Messenger\Exception\LogicException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
@@ -18,26 +19,52 @@ trait HandleTrait
 
     private readonly MessageBusInterface $queryBus;
 
+    /**
+     * @throws \Throwable
+     */
     private function handleCommand(object $message): mixed
     {
         if (!isset($this->commandBus)) {
             throw new LogicException(\sprintf('You must provide a "%s" instance in the "%s::$queryBus" property, but that property has not been initialized yet.', MessageBusInterface::class, static::class));
         }
 
-        $envelope = $this->commandBus->dispatch($message);
+        try {
+            $envelope = $this->commandBus->dispatch($message);
 
-        return $this->getResultFromEnvelope($envelope);
+            return $this->getResultFromEnvelope($envelope);
+        } catch (HandlerFailedException $exception) {
+            $originException = $exception;
+
+            while ($exception instanceof HandlerFailedException) {
+                $exception = $exception->getPrevious();
+            }
+
+            throw $exception ?? $originException;
+        }
     }
 
+    /**
+     * @throws \Throwable
+     */
     private function handleQuery(object $message): mixed
     {
         if (!isset($this->queryBus)) {
             throw new LogicException(\sprintf('You must provide a "%s" instance in the "%s::$queryBus" property, but that property has not been initialized yet.', MessageBusInterface::class, static::class));
         }
 
-        $envelope = $this->queryBus->dispatch($message);
+        try {
+            $envelope = $this->queryBus->dispatch($message);
 
-        return $this->getResultFromEnvelope($envelope);
+            return $this->getResultFromEnvelope($envelope);
+        } catch (HandlerFailedException $exception) {
+            $originException = $exception;
+
+            while ($exception instanceof HandlerFailedException) {
+                $exception = $exception->getPrevious();
+            }
+
+            throw $exception ?? $originException;
+        }
     }
 
     private function getResultFromEnvelope(Envelope $envelope): mixed

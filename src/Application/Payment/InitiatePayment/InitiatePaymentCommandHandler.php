@@ -24,13 +24,20 @@ final readonly class InitiatePaymentCommandHandler implements CommandHandlerInte
 
     public function __invoke(InitiatePaymentCommand $command): Uuid
     {
-        $payer = Payer::createNew(
-            $command->payer->reference,
-            $command->payer->email,
-            $command->payer->name
-        );
+        $payer = $this->payerRepository->findByReference($command->payer->reference);
 
-        $this->payerRepository->add($payer);
+        if (null === $payer) {
+            $payer = Payer::createNew(
+                $command->payer->reference,
+                $command->payer->email,
+                $command->payer->name
+            );
+
+            $this->payerRepository->add($payer);
+        }
+        else {
+            $payer->update($command->payer->email, $command->payer->name);
+        }
 
         $payment = Payment::createNew(
             $command->currency,
@@ -40,6 +47,8 @@ final readonly class InitiatePaymentCommandHandler implements CommandHandlerInte
             $payer->id,
             $command->bankId ? new BankId($command->bankId) : null,
         );
+
+        $this->paymentRepository->add($payment);
 
         return $payment->id->getValue();
     }

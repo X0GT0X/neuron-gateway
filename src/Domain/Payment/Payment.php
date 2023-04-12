@@ -50,7 +50,7 @@ class Payment extends Entity implements AggregateRootInterface
         $this->uniqueReference = $uniqueReference;
         $this->payerId = $payerId;
         $this->status = PaymentStatus::NEW_PAYMENT;
-        $this->bank = null !== $bankId ? Bank::create($bankId, true) : null;
+        $this->bank = Bank::create($bankId, !(null === $bankId));
         $this->createdAt = new \DateTimeImmutable();
 
         $this->addDomainEvent(new PaymentCreatedDomainEvent(
@@ -60,7 +60,7 @@ class Payment extends Entity implements AggregateRootInterface
             $this->type,
             $this->uniqueReference,
             $this->payerId,
-            $this->bank?->id,
+            $this->bank->id,
         ));
     }
 

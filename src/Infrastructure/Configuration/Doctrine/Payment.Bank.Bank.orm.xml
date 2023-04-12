@@ -5,7 +5,7 @@
 
     <embeddable name="App\Domain\Payment\Bank\Bank">
 
-        <field name="id" type="bank_id" />
+        <field name="id" type="bank_id" nullable="true" />
 
         <field name="isReadOnly" type="boolean" column="is_read_only" />
 

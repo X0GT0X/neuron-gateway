@@ -55,6 +55,12 @@ sf: ## List all Symfony commands or pass the parameter "c=" to run a given comma
 cc: c=c:c ## Clear the cache
 cc: sf
 
+migrations-diff:
+	@$(SYMFONY) doctrine:migrations:diff
+
+migrations-migrate:
+	@$(SYMFONY) d:m:m
+
 ## —— Tools 🚀 ——————————————————————————————————————————————————————————————
 cs-fix:
 	$(PHP_CONT) vendor/bin/php-cs-fixer fix -v --allow-risky=yes

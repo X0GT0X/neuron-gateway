@@ -17,18 +17,18 @@ class BankIdType extends GuidType
     }
 
     /**
-     * @param BankId $value
+     * @param ?BankId $value
      */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): Uuid
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?Uuid
     {
-        return $value->getValue();
+        return $value?->getValue();
     }
 
     /**
-     * @param string $value
+     * @param ?string $value
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform): BankId
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?BankId
     {
-        return new BankId(Uuid::fromString($value));
+        return null !== $value ? new BankId(Uuid::fromString($value)) : null;
     }
 }

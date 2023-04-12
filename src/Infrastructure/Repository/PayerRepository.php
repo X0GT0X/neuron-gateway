@@ -25,4 +25,15 @@ class PayerRepository extends ServiceEntityRepository implements PayerRepository
     {
         $this->getEntityManager()->getUnitOfWork()->scheduleForUpdate($payer);
     }
+
+    public function findByReference(string $reference): ?Payer
+    {
+        $payer = $this->findOneBy(['reference' => $reference]);
+
+        if (!$payer instanceof Payer) {
+            return null;
+        }
+
+        return $payer;
+    }
 }

@@ -48,5 +48,6 @@ class Payer extends Entity implements AggregateRootInterface
     {
         $this->email = $email ?? $this->email;
         $this->name = $name ?? $this->name;
+        $this->updatedAt = new \DateTimeImmutable();
     }
 }

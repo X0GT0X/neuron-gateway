@@ -9,4 +9,6 @@ interface PayerRepositoryInterface
     public function add(Payer $payer): void;
 
     public function update(Payer $payer): void;
+
+    public function findByReference(string $reference): ?Payer;
 }
