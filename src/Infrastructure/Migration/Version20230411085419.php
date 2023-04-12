@@ -11,7 +11,7 @@ final class Version20230411085419 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Add Payer entity';
+        return 'Add PayerRequestData entity';
     }
 
     public function up(Schema $schema): void

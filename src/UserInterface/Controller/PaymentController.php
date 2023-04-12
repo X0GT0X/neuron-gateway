@@ -6,7 +6,6 @@ namespace App\UserInterface\Controller;
 
 use App\Application\Contract\GatewayModuleInterface;
 use App\Application\Payment\InitiatePayment\DTO\PayerDTO;
-use App\Application\Payment\InitiatePayment\DTO\PaymentDTO;
 use App\Application\Payment\InitiatePayment\InitiatePaymentCommand;
 use App\Domain\Currency;
 use App\Domain\Payment\PaymentType;
@@ -25,18 +24,16 @@ final readonly class PaymentController
     public function initiate(InitiatePaymentRequest $request): JsonResponse
     {
         $paymentId = $this->gatewayModule->executeCommand(new InitiatePaymentCommand(
-            new PaymentDTO(
-                Currency::from($request->currency),
-                $request->amount,
-                PaymentType::from($request->type),
-                $request->uniqueReference,
-                new PayerDTO(
-                    $request->payer->reference,
-                    $request->payer->email,
-                    $request->payer->name,
-                ),
-                $request->bankId,
-            )
+            Currency::from((string) $request->currency),
+            (int) $request->amount,
+            PaymentType::from((string) $request->type),
+            (string) $request->uniqueReference,
+            new PayerDTO(
+                (string) $request->payer?->reference,
+                (string) $request->payer?->email,
+                (string) $request->payer?->name,
+            ),
+            $request->bankId,
         ));
 
         return new JsonResponse([

@@ -14,33 +14,31 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Uid\Uuid;
 
 #[AsMessageHandler]
-final class InitiatePaymentCommandHandler implements CommandHandlerInterface
+final readonly class InitiatePaymentCommandHandler implements CommandHandlerInterface
 {
     public function __construct(
-        private readonly PaymentRepositoryInterface $paymentRepository,
-        private readonly PayerRepositoryInterface $payerRepository,
+        private PaymentRepositoryInterface $paymentRepository,
+        private PayerRepositoryInterface $payerRepository,
     ) {
     }
 
     public function __invoke(InitiatePaymentCommand $command): Uuid
     {
-        $paymentDTO = $command->paymentDTO;
-
         $payer = Payer::createNew(
-            $paymentDTO->payer->reference,
-            $paymentDTO->payer->email,
-            $paymentDTO->payer->name
+            $command->payer->reference,
+            $command->payer->email,
+            $command->payer->name
         );
 
         $this->payerRepository->add($payer);
 
         $payment = Payment::createNew(
-            $paymentDTO->currency,
-            $paymentDTO->amount,
-            $paymentDTO->type,
-            $paymentDTO->uniqueReference,
+            $command->currency,
+            $command->amount,
+            $command->type,
+            $command->uniqueReference,
             $payer->id,
-            $paymentDTO->bankId ? new BankId($paymentDTO->bankId) : null,
+            $command->bankId ? new BankId($command->bankId) : null,
         );
 
         return $payment->id->getValue();
