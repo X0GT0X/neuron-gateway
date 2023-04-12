@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\UserInterface\Request\ParamConverter;
 
-use App\UserInterface\Request\InitiatePaymentRequest;
+use App\UserInterface\Request\RequestInterface;
 use App\UserInterface\Request\Validation\RequestValidationException;
 use App\UserInterface\Request\Validation\RequestValidatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -12,7 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInte
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
 
-readonly class InitiatePaymentRequestParamConverter implements ParamConverterInterface
+readonly class RequestParamConverter implements ParamConverterInterface
 {
     public function __construct(
         private SerializerInterface $serializer,
@@ -25,7 +25,8 @@ readonly class InitiatePaymentRequestParamConverter implements ParamConverterInt
      */
     public function apply(Request $request, ParamConverter $configuration): bool
     {
-        $deserializedRequest = $this->serializer->deserialize($request->getContent(), InitiatePaymentRequest::class, 'json');
+        /** @var RequestInterface $deserializedRequest */
+        $deserializedRequest = $this->serializer->deserialize($request->getContent(), $configuration->getClass(), 'json');
 
         $this->validator->validate($deserializedRequest);
 
@@ -36,6 +37,8 @@ readonly class InitiatePaymentRequestParamConverter implements ParamConverterInt
 
     public function supports(ParamConverter $configuration): bool
     {
-        return InitiatePaymentRequest::class === $configuration->getClass();
+        $reflection = new \ReflectionClass($configuration->getClass());
+
+        return $reflection->isSubclassOf(RequestInterface::class);
     }
 }

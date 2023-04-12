@@ -34,8 +34,7 @@ final readonly class InitiatePaymentCommandHandler implements CommandHandlerInte
             );
 
             $this->payerRepository->add($payer);
-        }
-        else {
+        } else {
             $payer->update($command->payer->email, $command->payer->name);
         }
 

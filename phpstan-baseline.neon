@@ -9,3 +9,8 @@ parameters:
 			message: "#^Call to an undefined method App\\\\Application\\\\Configuration\\\\CommandHandlerInterface\\:\\:__invoke\\(\\)\\.$#"
 			count: 1
 			path: src/Infrastructure/Configuration/Decorator/UnitOfWorkCommandHandlerDecorator.php
+
+		-
+			message: "#^Parameter \\#1 \\$objectOrClass of class ReflectionClass constructor expects class\\-string\\<T of object\\>\\|T of object, string given\\.$#"
+			count: 1
+			path: src/UserInterface/Request/ParamConverter/RequestParamConverter.php

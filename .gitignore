@@ -23,4 +23,5 @@
 /phpunit.xml
 .phpunit.result.cache
 .phpunit.cache
+tests/.coverage
 ###< phpunit/phpunit ###
