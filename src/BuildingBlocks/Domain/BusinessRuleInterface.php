@@ -9,4 +9,11 @@ interface BusinessRuleInterface
     public function isBroken(): bool;
 
     public function getMessage(): string;
+
+    public function getMessageTemplate(): string;
+
+    /**
+     * @return array<string|int|float>
+     */
+    public function getMessageArguments(): array;
 }

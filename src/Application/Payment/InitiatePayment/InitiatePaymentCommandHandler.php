@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Application\Payment\InitiatePayment;
 
 use App\Application\Configuration\CommandHandlerInterface;
-use App\Domain\Payer\Payer;
-use App\Domain\Payer\PayerRepositoryInterface;
+use App\BuildingBlocks\Domain\BusinessRuleValidationException;
+use App\Domain\Payer\PayerComposer;
 use App\Domain\Payment\Bank\BankId;
 use App\Domain\Payment\Payment;
 use App\Domain\Payment\PaymentRepositoryInterface;
@@ -18,25 +18,20 @@ final readonly class InitiatePaymentCommandHandler implements CommandHandlerInte
 {
     public function __construct(
         private PaymentRepositoryInterface $paymentRepository,
-        private PayerRepositoryInterface $payerRepository,
+        private PayerComposer $payerComposer,
     ) {
     }
 
+    /**
+     * @throws BusinessRuleValidationException
+     */
     public function __invoke(InitiatePaymentCommand $command): Uuid
     {
-        $payer = $this->payerRepository->findByReference($command->payer->reference);
-
-        if (null === $payer) {
-            $payer = Payer::createNew(
-                $command->payer->reference,
-                $command->payer->email,
-                $command->payer->name
-            );
-
-            $this->payerRepository->add($payer);
-        } else {
-            $payer->update($command->payer->email, $command->payer->name);
-        }
+        $payer = $this->payerComposer->compose(
+            $command->payer->reference,
+            $command->payer->email,
+            $command->payer->name,
+        );
 
         $payment = Payment::createNew(
             $command->currency,
