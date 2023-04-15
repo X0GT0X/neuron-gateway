@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Configuration\Decorator;
 
-use App\Application\Configuration\CommandHandlerInterface;
+use App\Application\Configuration\Command\CommandHandlerInterface;
 use App\Application\Contract\CommandInterface;
 use App\BuildingBlocks\Domain\BusinessRuleValidationException;
 use Psr\Log\LoggerInterface;

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\UserInterface\Request\Validation;
+namespace App\Application\Configuration\Command;
 
-class RequestValidationException extends \Exception
+class InvalidCommandException extends \Exception
 {
-    private const MESSAGE = 'Request validation exception';
+    private const MESSAGE = 'Invalid command exception';
 
     /**
      * @param array<string|int, array<string, string|null>>|array<int, array<string, mixed>>|array<string, string|null> $errors

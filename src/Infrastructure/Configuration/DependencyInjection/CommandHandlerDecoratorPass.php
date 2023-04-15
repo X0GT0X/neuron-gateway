@@ -6,6 +6,7 @@ namespace App\Infrastructure\Configuration\DependencyInjection;
 
 use App\Infrastructure\Configuration\Decorator\LoggingCommandHandlerDecorator;
 use App\Infrastructure\Configuration\Decorator\UnitOfWorkCommandHandlerDecorator;
+use App\Infrastructure\Configuration\Decorator\ValidationCommandHandlerDecorator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -18,8 +19,9 @@ class CommandHandlerDecoratorPass implements CompilerPassInterface
         );
 
         foreach ($taggedServices as $id => $tags) {
-            if (UnitOfWorkCommandHandlerDecorator::class === $id ||
-                LoggingCommandHandlerDecorator::class === $id) {
+            if (UnitOfWorkCommandHandlerDecorator::class === $id
+                || ValidationCommandHandlerDecorator::class === $id
+                || LoggingCommandHandlerDecorator::class === $id) {
                 continue;
             }
 
@@ -29,9 +31,15 @@ class CommandHandlerDecoratorPass implements CompilerPassInterface
                 ->setPublic(true)
                 ->setAutowired(true);
 
+            $decoratedWithValidationServiceId = $this->generateAliasName($id, ValidationCommandHandlerDecorator::class);
+            $container->register($decoratedWithValidationServiceId, ValidationCommandHandlerDecorator::class)
+                ->setDecoratedService($decoratedWithUnitOfWorkServiceId)
+                ->setPublic(true)
+                ->setAutowired(true);
+
             $decoratedWithLoggingServiceId = $this->generateAliasName($id, LoggingCommandHandlerDecorator::class);
             $container->register($decoratedWithLoggingServiceId, LoggingCommandHandlerDecorator::class)
-                ->setDecoratedService($decoratedWithUnitOfWorkServiceId)
+                ->setDecoratedService($decoratedWithValidationServiceId)
                 ->setPublic(true)
                 ->setAutowired(true);
         }

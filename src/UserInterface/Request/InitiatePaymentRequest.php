@@ -21,9 +21,9 @@ readonly class InitiatePaymentRequest implements RequestInterface
         #[Assert\Choice(callback: [PaymentType::class, 'values'], message: 'Provided value {{ value }} is not one of the supported payment types. Try one of {{{ choices }}}')]
         public ?string $type,
         #[Assert\NotBlank(message: 'Unique reference must be provided', allowNull: false)]
-        #[Assert\Length(max: 16, maxMessage: 'Unique reference cannot be longer than {{ limit }} characters')]
         public ?string $uniqueReference,
-        #[Assert\NotBlank(message: 'PayerRequestData data must be provided', allowNull: false)]
+        #[Assert\NotBlank(message: 'Payer data must be provided', allowNull: false)]
+        #[Assert\Valid]
         public ?PayerRequestData $payer,
         #[Assert\Uuid(message: 'Bank ID should be a valid UUID')]
         public ?Uuid $bankId = null,

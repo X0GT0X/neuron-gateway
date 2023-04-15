@@ -2,23 +2,29 @@
 
 declare(strict_types=1);
 
-namespace App\UserInterface\Request\Validation;
+namespace App\Infrastructure\Configuration\Decorator;
 
-use App\UserInterface\Request\RequestInterface;
+use App\Application\Configuration\Command\CommandHandlerInterface;
+use App\Application\Configuration\Command\InvalidCommandException;
+use App\Application\Contract\CommandInterface;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-final readonly class RequestValidator implements RequestValidatorInterface
+readonly class ValidationCommandHandlerDecorator implements CommandHandlerInterface
 {
     public function __construct(
-        private ValidatorInterface $validator
+        private CommandHandlerInterface $inner,
+        private ValidatorInterface $validator,
     ) {
     }
 
-    public function validate(RequestInterface $request): void
+    /**
+     * @throws InvalidCommandException
+     */
+    public function __invoke(CommandInterface $command): mixed
     {
-        $constraintViolationList = $this->validator->validate($request);
+        $constraintViolationList = $this->validator->validate($command);
         $constraintViolations = $this->transformConstraintViolationListToArray($constraintViolationList);
 
         if (\count($constraintViolations) > 0) {
@@ -29,8 +35,10 @@ final readonly class RequestValidator implements RequestValidatorInterface
                 ];
             }, $constraintViolations);
 
-            throw new RequestValidationException($errors);
+            throw new InvalidCommandException($errors);
         }
+
+        return $this->inner->__invoke($command);
     }
 
     /**
