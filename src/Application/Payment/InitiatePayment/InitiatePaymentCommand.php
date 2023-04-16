@@ -18,7 +18,7 @@ class InitiatePaymentCommand extends AbstractCommand
         public readonly int $amount,
         public readonly PaymentType $type,
         #[Assert\Length(max: 16, maxMessage: 'Unique reference cannot be longer than {{ limit }} characters')]
-        #[Assert\Regex('/^[A-Za-z0-9]+$/', message: 'Unique reference must be only alphanumeric characters')]
+        #[Assert\Regex('/^[A-Za-z0-9]+$/', message: 'Unique reference must contain only alphanumeric characters')]
         public readonly string $uniqueReference,
         #[Assert\Valid]
         public readonly PayerDTO $payer,

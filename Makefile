@@ -24,7 +24,7 @@ build: ## Builds the Docker images
 up: ## Start the docker hub in detached mode (no logs)
 	@$(DOCKER_COMP) up -d
 
-start: build up ## Build and start the containers
+start: build up database migrations-migrate ## Build and start the containers
 
 down: ## Stop the docker hub
 	@$(DOCKER_COMP) down --remove-orphans
@@ -57,6 +57,9 @@ sf: ## List all Symfony commands or pass the parameter "c=" to run a given comma
 
 cc: c=c:c ## Clear the cache
 cc: sf
+
+database:
+	@$(SYMFONY) doctrine:database:create
 
 migrations-diff:
 	@$(SYMFONY) doctrine:migrations:diff
