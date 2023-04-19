@@ -2,6 +2,7 @@ version: "3.4"
 
 services:
   php:
+    container_name: neuron-gateway-php
     build:
       context: .
       target: app_php
@@ -22,6 +23,7 @@ services:
       - neuron
 
   caddy:
+    container_name: neuron-gateway-server
     build:
       context: .
       target: app_caddy
@@ -33,20 +35,12 @@ services:
     volumes:
       - php_socket:/var/run/php
       - caddy_data:/data
-      - caddy_config:/configx
-    ports:
-      # HTTP
-      - target: 80
-        published: ${HTTP_PORT:-80}
-        protocol: tcp
-      # HTTPS
-      - target: 443
-        published: ${HTTPS_PORT:-443}
-        protocol: tcp
-      # HTTP/3
-      - target: 443
-        published: ${HTTP3_PORT:-443}
-        protocol: udp
+      - caddy_config:/config
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.gateway.rule=Host(`gateway.neuron.localhost`)"
+      - "traefik.http.routers.gateway.tls=true"
+      - "traefik.http.routers.gateway.entrypoints=http,https"
     networks:
       - neuron
 
