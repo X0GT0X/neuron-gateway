@@ -15,11 +15,18 @@ framework:
             # async: '%env(MESSENGER_TRANSPORT_DSN)%'
             # failed: 'doctrine://default?queue_name=failed'
             sync: 'sync://'
+            outbox:
+                dsn: '%env(OUTBOX_TRANSPORT_DSN)%'
+                options:
+                    table_name: outbox_messages
+                    auto_setup: false
 
         routing:
             Neuron\BuildingBlocks\Domain\DomainEventInterface: sync
             App\Application\Contract\CommandInterface: sync
             App\Application\Contract\QueryInterface: sync
+            Neuron\BuildingBlocks\Application\Event\DomainEventNotificationInterface: sync
+            Neuron\BuildingBlocks\Infrastructure\Outbox\OutboxMessage: outbox
 
 # when@test:
 #    framework:

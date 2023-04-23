@@ -1,6 +1,7 @@
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
+        schema_filter: '~^(?!outbox_messages)~'
         types:
             payer_id: App\Infrastructure\Configuration\Doctrine\Type\PayerIdType
             payment_id: App\Infrastructure\Configuration\Doctrine\Type\PaymentIdType

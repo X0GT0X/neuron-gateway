@@ -35,9 +35,9 @@ services:
 
     Neuron\BuildingBlocks\Infrastructure\DomainEventsDispatching\DomainEventNotificationsResolverInterface: '@app.domain_event_notifications_resolver'
     
-#    app.outbox: '@App\Infrastructure\Configuration\Outbox\Outbox'
-#    Neuron\BuildingBlocks\Infrastructure\Outbox\OutboxInterface: '@app.outbox'
-#
+    app.outbox: '@App\Infrastructure\Configuration\Outbox\Outbox'
+    Neuron\BuildingBlocks\Infrastructure\Outbox\OutboxInterface: '@app.outbox'
+
 #    app.inbox: '@App\Infrastructure\Configuration\Inbox\Inbox'
 #    Neuron\BuildingBlocks\Infrastructure\Inbox\InboxInterface: '@app.inbox'
 

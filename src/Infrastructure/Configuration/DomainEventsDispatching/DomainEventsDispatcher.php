@@ -4,21 +4,24 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Configuration\DomainEventsDispatching;
 
-use App\Infrastructure\Configuration\Outbox\OutboxInterface;
 use Neuron\BuildingBlocks\Application\Event\DomainEventNotificationInterface;
 use Neuron\BuildingBlocks\Infrastructure\DomainEventsDispatching\DomainEventNotificationNotFoundException;
 use Neuron\BuildingBlocks\Infrastructure\DomainEventsDispatching\DomainEventNotificationsResolverInterface;
 use Neuron\BuildingBlocks\Infrastructure\DomainEventsDispatching\DomainEventsAccessorInterface;
 use Neuron\BuildingBlocks\Infrastructure\DomainEventsDispatching\DomainEventsDispatcherInterface;
+use Neuron\BuildingBlocks\Infrastructure\Outbox\OutboxInterface;
+use Neuron\BuildingBlocks\Infrastructure\Outbox\OutboxMessage;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 final readonly class DomainEventsDispatcher implements DomainEventsDispatcherInterface
 {
     public function __construct(
         private MessageBusInterface $eventBus,
-        //        private OutboxInterface $outbox,
+        private OutboxInterface $outbox,
         private DomainEventsAccessorInterface $domainEventsAccessor,
         private DomainEventNotificationsResolverInterface $notificationsResolver,
+        private SerializerInterface $serializer,
     ) {
     }
 
@@ -32,6 +35,7 @@ final readonly class DomainEventsDispatcher implements DomainEventsDispatcherInt
         foreach ($domainEvents as $domainEvent) {
             try {
                 $domainEventNotification = $this->notificationsResolver->getNotificationTypeByDomainEvent($domainEvent);
+                /** @var DomainEventNotificationInterface $domainEventNotification */
                 $domainEventNotifications[] = new $domainEventNotification($domainEvent->getId(), $domainEvent);
             } catch (DomainEventNotificationNotFoundException) {
                 continue;
@@ -42,6 +46,15 @@ final readonly class DomainEventsDispatcher implements DomainEventsDispatcherInt
 
         foreach ($domainEvents as $domainEvent) {
             $this->eventBus->dispatch($domainEvent);
+        }
+
+        foreach ($domainEventNotifications as $domainEventNotification) {
+            $this->outbox->add(new OutboxMessage(
+                $domainEventNotification->getId(),
+                $domainEventNotification->getDomainEvent()->getOccurredOn(),
+                $domainEventNotification::class,
+                $this->serializer->serialize($domainEventNotification, 'json')
+            ));
         }
     }
 }
