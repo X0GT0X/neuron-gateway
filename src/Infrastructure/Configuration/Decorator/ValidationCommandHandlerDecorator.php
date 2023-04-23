@@ -11,7 +11,7 @@ use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-readonly class ValidationCommandHandlerDecorator implements CommandHandlerInterface
+final readonly class ValidationCommandHandlerDecorator implements CommandHandlerInterface
 {
     public function __construct(
         private CommandHandlerInterface $inner,

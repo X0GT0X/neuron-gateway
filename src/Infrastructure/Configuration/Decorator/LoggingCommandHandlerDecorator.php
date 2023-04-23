@@ -9,7 +9,7 @@ use App\Application\Contract\CommandInterface;
 use Neuron\BuildingBlocks\Domain\BusinessRuleValidationException;
 use Psr\Log\LoggerInterface;
 
-readonly class LoggingCommandHandlerDecorator implements CommandHandlerInterface
+final readonly class LoggingCommandHandlerDecorator implements CommandHandlerInterface
 {
     public function __construct(
         private CommandHandlerInterface $inner,

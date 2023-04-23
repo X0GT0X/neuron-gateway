@@ -82,7 +82,7 @@ cs-fix:
 	$(PHP_CONT) vendor/bin/php-cs-fixer fix -v --allow-risky=yes
 
 php-stan:
-	$(PHP_CONT) vendor/bin/phpstan analyse
+	$(PHP_CONT) vendor/bin/phpstan analyse -c phpstan.neon
 
 php-stan-baseline:
 	$(PHP_CONT) vendor/bin/phpstan analyse --generate-baseline

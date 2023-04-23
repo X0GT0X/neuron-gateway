@@ -8,8 +8,26 @@ parameters:
     paths:
         - src
         - tests
+        - tests/ArchTest
     excludePaths:
         - src/Infrastructure/Migration/*
+    phpat:
+        ignore_built_in_classes: false
+        show_rule_names: true
     ignoreErrors:
         -
             message: '#^Property [a-zA-Z0-9\\_]+::\$[a-zA-Z\_]+ is never read, only written.$#'
+
+services:
+    -
+        class: App\Tests\ArchTest\LayersTest
+        tags:
+            - phpat.test
+    -
+        class: App\Tests\ArchTest\DomainTest
+        tags:
+            - phpat.test
+    -
+        class: App\Tests\ArchTest\ApplicationTest
+        tags:
+            - phpat.test

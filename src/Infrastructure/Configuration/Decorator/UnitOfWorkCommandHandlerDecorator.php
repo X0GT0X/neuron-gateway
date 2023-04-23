@@ -8,7 +8,7 @@ use App\Application\Configuration\Command\CommandHandlerInterface;
 use App\Application\Contract\CommandInterface;
 use Neuron\BuildingBlocks\Infrastructure\UnitOfWorkInterface;
 
-readonly class UnitOfWorkCommandHandlerDecorator implements CommandHandlerInterface
+final readonly class UnitOfWorkCommandHandlerDecorator implements CommandHandlerInterface
 {
     public function __construct(
         private CommandHandlerInterface $inner,
