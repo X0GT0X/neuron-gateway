@@ -51,6 +51,7 @@ RUN set -eux; \
     	intl \
 		opcache \
     	zip \
+    	amqp \
     ;
 
 ###> recipes ###

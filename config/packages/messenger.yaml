@@ -12,13 +12,28 @@ framework:
 
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
-            # async: '%env(MESSENGER_TRANSPORT_DSN)%'
             # failed: 'doctrine://default?queue_name=failed'
+            async:
+                dsn: '%env(ASYNC_MESSENGER_TRANSPORT_DSN)%'
+                serializer: Neuron\BuildingBlocks\Integration\IntegrationEventSerializer
+                options:
+                    exchange:
+                        name: integration_events
+                        type: topic
+                    queues:
+                        gateway:
+                            binding_keys:
+                                - gateway
             sync: 'sync://'
             outbox:
                 dsn: '%env(OUTBOX_TRANSPORT_DSN)%'
                 options:
                     table_name: outbox_messages
+                    auto_setup: false
+            inbox:
+                dsn: '%env(INBOX_TRANSPORT_DSN)%'
+                options:
+                    table_name: inbox_messages
                     auto_setup: false
 
         routing:
@@ -27,6 +42,9 @@ framework:
             App\Application\Contract\QueryInterface: sync
             Neuron\BuildingBlocks\Application\Event\DomainEventNotificationInterface: sync
             Neuron\BuildingBlocks\Infrastructure\Outbox\OutboxMessage: outbox
+            Neuron\BuildingBlocks\Infrastructure\Inbox\InboxMessage: inbox
+            Neuron\BuildingBlocks\Integration\SentIntegrationEventInterface: async
+            Neuron\BuildingBlocks\Integration\ReceivedIntegrationEventInterface: sync
 
 # when@test:
 #    framework:

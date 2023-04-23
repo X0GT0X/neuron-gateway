@@ -38,8 +38,8 @@ services:
     app.outbox: '@App\Infrastructure\Configuration\Outbox\Outbox'
     Neuron\BuildingBlocks\Infrastructure\Outbox\OutboxInterface: '@app.outbox'
 
-#    app.inbox: '@App\Infrastructure\Configuration\Inbox\Inbox'
-#    Neuron\BuildingBlocks\Infrastructure\Inbox\InboxInterface: '@app.inbox'
+    app.inbox: '@App\Infrastructure\Configuration\Inbox\Inbox'
+    Neuron\BuildingBlocks\Infrastructure\Inbox\InboxInterface: '@app.inbox'
 
     app.domain_events_accessor: '@App\Infrastructure\Configuration\DomainEventsDispatching\DomainEventsAccessor'
     Neuron\BuildingBlocks\Infrastructure\DomainEventsDispatching\DomainEventsAccessorInterface: '@app.domain_events_accessor'
