@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Configuration\DomainEventsDispatching;
 
-use App\BuildingBlocks\Application\Event\DomainEventNotificationInterface;
-use App\BuildingBlocks\Infrastructure\DomainEventDispatching\DomainEventNotificationNotFoundException;
-use App\BuildingBlocks\Infrastructure\DomainEventDispatching\DomainEventNotificationsResolverInterface;
-use App\BuildingBlocks\Infrastructure\DomainEventDispatching\DomainEventsAccessorInterface;
-use App\BuildingBlocks\Infrastructure\DomainEventDispatching\DomainEventsDispatcherInterface;
 use App\Infrastructure\Configuration\Outbox\OutboxInterface;
+use Neuron\BuildingBlocks\Application\Event\DomainEventNotificationInterface;
+use Neuron\BuildingBlocks\Infrastructure\DomainEventsDispatching\DomainEventNotificationNotFoundException;
+use Neuron\BuildingBlocks\Infrastructure\DomainEventsDispatching\DomainEventNotificationsResolverInterface;
+use Neuron\BuildingBlocks\Infrastructure\DomainEventsDispatching\DomainEventsAccessorInterface;
+use Neuron\BuildingBlocks\Infrastructure\DomainEventsDispatching\DomainEventsDispatcherInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 final readonly class DomainEventsDispatcher implements DomainEventsDispatcherInterface

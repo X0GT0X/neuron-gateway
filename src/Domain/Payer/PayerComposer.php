@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Payer;
 
-use App\BuildingBlocks\Domain\BusinessRuleValidationException;
+use Neuron\BuildingBlocks\Domain\BusinessRuleValidationException;
 
 final readonly class PayerComposer
 {

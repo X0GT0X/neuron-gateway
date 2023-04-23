@@ -6,7 +6,7 @@ namespace App\Infrastructure\Configuration\Decorator;
 
 use App\Application\Configuration\Command\CommandHandlerInterface;
 use App\Application\Contract\CommandInterface;
-use App\BuildingBlocks\Infrastructure\UnitOfWorkInterface;
+use Neuron\BuildingBlocks\Infrastructure\UnitOfWorkInterface;
 
 readonly class UnitOfWorkCommandHandlerDecorator implements CommandHandlerInterface
 {

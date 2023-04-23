@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Configuration\DomainEventsDispatching;
 
-use App\BuildingBlocks\Domain\Entity;
-use App\BuildingBlocks\Infrastructure\DomainEventDispatching\DomainEventsAccessorInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Neuron\BuildingBlocks\Domain\Entity;
+use Neuron\BuildingBlocks\Infrastructure\DomainEventsDispatching\DomainEventsAccessorInterface;
 
 final readonly class DomainEventsAccessor implements DomainEventsAccessorInterface
 {

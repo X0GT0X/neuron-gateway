@@ -29,11 +29,26 @@ services:
         tags: ['controller.service_arguments']
 
     app.domain_event_notifications_resolver:
-        class: App\BuildingBlocks\Infrastructure\DomainEventDispatching\DomainEventNotificationsResolver
+        class: Neuron\BuildingBlocks\Infrastructure\DomainEventsDispatching\DomainEventNotificationsResolver
         arguments:
             - '%app.domain_event_notifications%'
 
-    App\BuildingBlocks\Infrastructure\DomainEventDispatching\DomainEventNotificationsResolverInterface: '@app.domain_event_notifications_resolver'
+    Neuron\BuildingBlocks\Infrastructure\DomainEventsDispatching\DomainEventNotificationsResolverInterface: '@app.domain_event_notifications_resolver'
+    
+#    app.outbox: '@App\Infrastructure\Configuration\Outbox\Outbox'
+#    Neuron\BuildingBlocks\Infrastructure\Outbox\OutboxInterface: '@app.outbox'
+#
+#    app.inbox: '@App\Infrastructure\Configuration\Inbox\Inbox'
+#    Neuron\BuildingBlocks\Infrastructure\Inbox\InboxInterface: '@app.inbox'
+
+    app.domain_events_accessor: '@App\Infrastructure\Configuration\DomainEventsDispatching\DomainEventsAccessor'
+    Neuron\BuildingBlocks\Infrastructure\DomainEventsDispatching\DomainEventsAccessorInterface: '@app.domain_events_accessor'
+
+    app.domain_events_dispatcher: '@App\Infrastructure\Configuration\DomainEventsDispatching\DomainEventsDispatcher'
+    Neuron\BuildingBlocks\Infrastructure\DomainEventsDispatching\DomainEventsDispatcherInterface: '@app.domain_events_dispatcher'
+
+    app.unit_of_work: '@App\Infrastructure\Configuration\UnitOfWork'
+    Neuron\BuildingBlocks\Infrastructure\UnitOfWorkInterface: '@app.unit_of_work'
     
 imports:
     - { resource: ../src/Infrastructure/Configuration/DomainEventsDispatching/domain_event_notifications.yaml }

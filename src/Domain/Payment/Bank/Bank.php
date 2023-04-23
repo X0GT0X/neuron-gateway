@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Payment\Bank;
 
-use App\BuildingBlocks\Domain\Entity;
+use Neuron\BuildingBlocks\Domain\Entity;
 
 class Bank extends Entity
 {

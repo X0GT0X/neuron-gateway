@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\UserInterface\Controller;
 
 use App\Application\Configuration\Command\InvalidCommandException;
-use App\BuildingBlocks\Domain\BusinessRuleValidationException;
-use App\UserInterface\Request\Validation\RequestValidationException;
+use Neuron\BuildingBlocks\Domain\BusinessRuleValidationException;
+use Neuron\BuildingBlocks\UserInterface\Request\Validation\RequestValidationException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 

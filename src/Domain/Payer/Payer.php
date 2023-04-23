@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Domain\Payer;
 
-use App\BuildingBlocks\Domain\AggregateRootInterface;
-use App\BuildingBlocks\Domain\BusinessRuleValidationException;
-use App\BuildingBlocks\Domain\Entity;
 use App\Domain\Payer\Event\PayerCreatedDomainEvent;
 use App\Domain\Payer\Rule\PayerReferenceShouldBeUniqueRule;
+use Neuron\BuildingBlocks\Domain\AggregateRootInterface;
+use Neuron\BuildingBlocks\Domain\BusinessRuleValidationException;
+use Neuron\BuildingBlocks\Domain\Entity;
 use Symfony\Component\Uid\Uuid;
 
 class Payer extends Entity implements AggregateRootInterface
@@ -32,7 +32,7 @@ class Payer extends Entity implements AggregateRootInterface
     {
         $this->checkRule(new PayerReferenceShouldBeUniqueRule($reference, $payerCounter));
 
-        $this->id = new PayerId(Uuid::v4());
+        $this->id = new PayerId((string) Uuid::v4());
         $this->reference = $reference;
         $this->email = $email;
         $this->name = $name;

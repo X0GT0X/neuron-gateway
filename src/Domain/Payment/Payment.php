@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Domain\Payment;
 
-use App\BuildingBlocks\Domain\AggregateRootInterface;
-use App\BuildingBlocks\Domain\Entity;
 use App\Domain\Currency;
 use App\Domain\Payer\PayerId;
 use App\Domain\Payment\Bank\Bank;
 use App\Domain\Payment\Bank\BankId;
 use App\Domain\Payment\Event\PaymentCreatedDomainEvent;
+use Neuron\BuildingBlocks\Domain\AggregateRootInterface;
+use Neuron\BuildingBlocks\Domain\Entity;
 use Symfony\Component\Uid\Uuid;
 
 class Payment extends Entity implements AggregateRootInterface
@@ -43,7 +43,7 @@ class Payment extends Entity implements AggregateRootInterface
         PayerId $payerId,
         ?BankId $bankId
     ) {
-        $this->id = new PaymentId(Uuid::v4());
+        $this->id = new PaymentId((string) Uuid::v4());
         $this->currency = $currency;
         $this->amount = $amount;
         $this->type = $type;

@@ -14,3 +14,8 @@ parameters:
 			message: "#^Call to an undefined method App\\\\Application\\\\Configuration\\\\Command\\\\CommandHandlerInterface\\:\\:__invoke\\(\\)\\.$#"
 			count: 1
 			path: src/Infrastructure/Configuration/Decorator/ValidationCommandHandlerDecorator.php
+
+		-
+			message: "#^Method App\\\\Infrastructure\\\\Configuration\\\\Doctrine\\\\Type\\\\AbstractIdType\\:\\:convertToPHPValue\\(\\) should return Neuron\\\\BuildingBlocks\\\\Domain\\\\BaseId\\|null but returns object\\|null\\.$#"
+			count: 1
+			path: src/Infrastructure/Configuration/Doctrine/Type/AbstractIdType.php

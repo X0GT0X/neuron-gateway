@@ -5,30 +5,18 @@ declare(strict_types=1);
 namespace App\Infrastructure\Configuration\Doctrine\Type;
 
 use App\Domain\Payment\PaymentId;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\GuidType;
-use Symfony\Component\Uid\Uuid;
 
-class PaymentIdType extends GuidType
+class PaymentIdType extends AbstractIdType
 {
+    public const NAME = 'payment_id';
+
+    public static function getIdClass(): string
+    {
+        return PaymentId::class;
+    }
+
     public function getName(): string
     {
-        return 'payment_id';
-    }
-
-    /**
-     * @param PaymentId $value
-     */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): Uuid
-    {
-        return $value->getValue();
-    }
-
-    /**
-     * @param string $value
-     */
-    public function convertToPHPValue($value, AbstractPlatform $platform): PaymentId
-    {
-        return new PaymentId(Uuid::fromString($value));
+        return self::NAME;
     }
 }

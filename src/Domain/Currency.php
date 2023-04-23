@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain;
 
-use App\BuildingBlocks\Domain\StringEnumTrait;
+use Neuron\BuildingBlocks\Domain\StringEnumTrait;
 
 enum Currency: string
 {

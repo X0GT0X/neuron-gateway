@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Configuration;
 
-use App\BuildingBlocks\Infrastructure\DomainEventDispatching\DomainEventsDispatcherInterface;
-use App\BuildingBlocks\Infrastructure\UnitOfWorkInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Neuron\BuildingBlocks\Infrastructure\DomainEventsDispatching\DomainEventsDispatcherInterface;
+use Neuron\BuildingBlocks\Infrastructure\UnitOfWorkInterface;
 
 final readonly class UnitOfWork implements UnitOfWorkInterface
 {

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Payer\Rule;
 
-use App\BuildingBlocks\Domain\AbstractBusinessRule;
 use App\Domain\Payer\PayerCounterInterface;
+use Neuron\BuildingBlocks\Domain\AbstractBusinessRule;
 
 class PayerReferenceShouldBeUniqueRule extends AbstractBusinessRule
 {

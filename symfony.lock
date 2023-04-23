@@ -47,6 +47,9 @@
             ".php-cs-fixer.dist.php"
         ]
     },
+    "neuron/building-blocks": {
+        "version": "1.0.5"
+    },
     "phpunit/phpunit": {
         "version": "10.0",
         "recipe": {

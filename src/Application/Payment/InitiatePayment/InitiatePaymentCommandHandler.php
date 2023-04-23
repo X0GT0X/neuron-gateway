@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Application\Payment\InitiatePayment;
 
 use App\Application\Configuration\Command\CommandHandlerInterface;
-use App\BuildingBlocks\Domain\BusinessRuleValidationException;
 use App\Domain\Payer\PayerComposer;
 use App\Domain\Payment\Bank\BankId;
 use App\Domain\Payment\Payment;
 use App\Domain\Payment\PaymentRepositoryInterface;
+use Neuron\BuildingBlocks\Domain\BusinessRuleValidationException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Uid\Uuid;
 
@@ -39,7 +39,7 @@ final readonly class InitiatePaymentCommandHandler implements CommandHandlerInte
             $command->type,
             $command->uniqueReference,
             $payer->id,
-            $command->bankId ? new BankId($command->bankId) : null,
+            $command->bankId ? new BankId((string) $command->bankId) : null,
         );
 
         $this->paymentRepository->add($payment);

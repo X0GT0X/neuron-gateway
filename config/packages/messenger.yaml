@@ -17,9 +17,9 @@ framework:
             sync: 'sync://'
 
         routing:
-            'App\BuildingBlocks\Domain\DomainEventInterface': sync
-            '\App\Application\Contract\CommandInterface': sync
-            '\App\Application\Contract\QueryInterface': sync
+            Neuron\BuildingBlocks\Domain\DomainEventInterface: sync
+            App\Application\Contract\CommandInterface: sync
+            App\Application\Contract\QueryInterface: sync
 
 # when@test:
 #    framework:

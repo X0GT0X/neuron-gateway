@@ -6,6 +6,7 @@ namespace App\UserInterface\Request;
 
 use App\Domain\Currency;
 use App\Domain\Payment\PaymentType;
+use Neuron\BuildingBlocks\UserInterface\Request\RequestInterface;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 

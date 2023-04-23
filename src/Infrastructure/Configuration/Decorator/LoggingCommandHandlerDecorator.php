@@ -6,7 +6,7 @@ namespace App\Infrastructure\Configuration\Decorator;
 
 use App\Application\Configuration\Command\CommandHandlerInterface;
 use App\Application\Contract\CommandInterface;
-use App\BuildingBlocks\Domain\BusinessRuleValidationException;
+use Neuron\BuildingBlocks\Domain\BusinessRuleValidationException;
 use Psr\Log\LoggerInterface;
 
 readonly class LoggingCommandHandlerDecorator implements CommandHandlerInterface
