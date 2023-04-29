@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\UserInterface\Controller;
 
 use App\Application\Configuration\Command\InvalidCommandException;
+use App\Domain\Exception\EntityNotFoundException;
 use Neuron\BuildingBlocks\Domain\BusinessRuleValidationException;
 use Neuron\BuildingBlocks\UserInterface\Request\Validation\RequestValidationException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -33,6 +34,12 @@ class ErrorController
             return new JsonResponse([
                 'message' => $exception->getMessage(),
             ], Response::HTTP_CONFLICT);
+        }
+
+        if ($exception instanceof EntityNotFoundException) {
+            return new JsonResponse([
+                'message' => $exception->getMessage(),
+            ], Response::HTTP_NOT_FOUND);
         }
 
         throw $exception;
