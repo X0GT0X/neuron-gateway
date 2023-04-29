@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Payer;
 
 use App\Domain\Payer\Event\PayerCreatedDomainEvent;
+use App\Domain\Payer\Event\PayerUpdatedDomainEvent;
 use App\Domain\Payer\Rule\PayerReferenceShouldBeUniqueRule;
 use Neuron\BuildingBlocks\Domain\AggregateRootInterface;
 use Neuron\BuildingBlocks\Domain\BusinessRuleValidationException;
@@ -59,5 +60,12 @@ class Payer extends Entity implements AggregateRootInterface
         $this->email = $email ?? $this->email;
         $this->name = $name ?? $this->name;
         $this->updatedAt = new \DateTimeImmutable();
+
+        $this->addDomainEvent(new PayerUpdatedDomainEvent(
+            $this->id,
+            $this->reference,
+            $this->email,
+            $this->name
+        ));
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\IntegrationTest\Payment;
 
 use App\Application\Configuration\Command\InvalidCommandException;
@@ -13,7 +15,7 @@ use App\Tests\IntegrationTest\IntegrationTestCase;
 
 class InitiatePaymentCommandTest extends IntegrationTestCase
 {
-    public function testThat_InitiatesNewPayment(): void
+    public function testThatInitiatesNewPayment(): void
     {
         $paymentId = $this->gatewayModule->executeCommand(new InitiatePaymentCommand(
             Currency::PLN,
@@ -43,7 +45,7 @@ class InitiatePaymentCommandTest extends IntegrationTestCase
         $this->assertFalse($payment->isBankReadOnly);
     }
 
-    public function testThat_UpdatesPayerData_WhenPaymentHasExistingPayer(): void
+    public function testThatUpdatesPayerDataWhenPaymentHasExistingPayer(): void
     {
         $paymentId = $this->gatewayModule->executeCommand(new InitiatePaymentCommand(
             Currency::PLN,
@@ -86,7 +88,7 @@ class InitiatePaymentCommandTest extends IntegrationTestCase
         $this->assertEquals('New Payer', $anotherPayment->payer->name);
     }
 
-    public function testThat_ThrowsInvalidCommandException_IfUniqueReference_HasOverThan16Characters(): void
+    public function testThatThrowsInvalidCommandExceptionIfUniqueReferenceHasOverThan16Characters(): void
     {
         $this->expectException(InvalidCommandException::class);
         $this->expectExceptionMessage('Invalid command exception');
@@ -105,7 +107,7 @@ class InitiatePaymentCommandTest extends IntegrationTestCase
         ));
     }
 
-    public function testThat_ThrowsInvalidCommandException_IfUniqueReference_HasNonAlphanumericCharacters(): void
+    public function testThatThrowsInvalidCommandExceptionIfUniqueReferenceHasNonAlphanumericCharacters(): void
     {
         $this->expectException(InvalidCommandException::class);
         $this->expectExceptionMessage('Invalid command exception');

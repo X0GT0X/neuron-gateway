@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\IntegrationTest\Payment;
 
 use App\Application\Payment\GetPayment\GetPaymentQuery;
@@ -14,7 +16,7 @@ use Symfony\Component\Uid\Uuid;
 
 class GetPaymentQueryTest extends IntegrationTestCase
 {
-    public function testThat_ReturnsProperPaymentData(): void
+    public function testThatReturnsProperPaymentData(): void
     {
         $paymentId = $this->gatewayModule->executeCommand(new InitiatePaymentCommand(
             Currency::PLN,
@@ -44,7 +46,7 @@ class GetPaymentQueryTest extends IntegrationTestCase
         $this->assertFalse($payment->isBankReadOnly);
     }
 
-    public function testThat_ThrowsPaymentNotFoundException_WhenPaymentDoesNotExist(): void
+    public function testThatThrowsPaymentNotFoundExceptionWhenPaymentDoesNotExist(): void
     {
         $paymentId = Uuid::fromString('cfc9fa5a-1412-4def-9730-3bdb2636318f');
 

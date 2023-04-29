@@ -1,6 +1,11 @@
 parameters:
 	ignoreErrors:
 		-
+			message: "#^Method App\\\\Infrastructure\\\\Configuration\\\\Connection\\:\\:transformSQLResultToDTO\\(\\) should return T but returns object\\.$#"
+			count: 1
+			path: src/Infrastructure/Configuration/Connection.php
+
+		-
 			message: "#^Call to an undefined method App\\\\Application\\\\Configuration\\\\Command\\\\CommandHandlerInterface\\:\\:__invoke\\(\\)\\.$#"
 			count: 1
 			path: src/Infrastructure/Configuration/Decorator/LoggingCommandHandlerDecorator.php
