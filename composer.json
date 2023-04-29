@@ -100,7 +100,7 @@
     "repositories": [
         {
             "type": "git",
-            "url": "git@github.com:X0GT0X/neuron-building-blocks.git"
+            "url": "https://github.com/X0GT0X/neuron-building-blocks.git"
         }
     ]
 }
