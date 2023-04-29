@@ -71,7 +71,9 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ]
+        ],
+        "php-cs": "vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php -v --dry-run --allow-risky=yes --using-cache=no",
+        "php-stan": "vendor/bin/phpstan analyse -c phpstan.neon"
     },
     "conflict": {
         "symfony/symfony": "*"
