@@ -19,7 +19,7 @@ class GatewayModule implements GatewayModuleInterface
     ) {
     }
 
-    public function executeCQuery(QueryInterface $query): mixed
+    public function executeQuery(QueryInterface $query): mixed
     {
         return $this->handleQuery($query);
     }

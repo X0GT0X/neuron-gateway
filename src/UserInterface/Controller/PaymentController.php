@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\UserInterface\Controller;
 
 use App\Application\Contract\GatewayModuleInterface;
+use App\Application\Payment\GetPayment\GetPaymentQuery;
 use App\Application\Payment\InitiatePayment\DTO\PayerDTO;
 use App\Application\Payment\InitiatePayment\InitiatePaymentCommand;
 use App\Domain\Currency;
@@ -12,11 +13,14 @@ use App\Domain\Payment\PaymentType;
 use App\UserInterface\Request\InitiatePaymentRequest;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Uid\Uuid;
 
 final readonly class PaymentController
 {
     public function __construct(
-        private GatewayModuleInterface $gatewayModule
+        private GatewayModuleInterface $gatewayModule,
+        private SerializerInterface $serializer,
     ) {
     }
 
@@ -39,5 +43,13 @@ final readonly class PaymentController
         return new JsonResponse([
             'paymentId' => $paymentId,
         ]);
+    }
+
+    #[Route('/payments/{paymentId}', methods: ['GET'])]
+    public function getPayment(Uuid $paymentId): JsonResponse
+    {
+        $payment = $this->gatewayModule->executeQuery(new GetPaymentQuery($paymentId));
+
+        return new JsonResponse($this->serializer->serialize($payment, 'json'), json: true);
     }
 }

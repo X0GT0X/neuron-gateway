@@ -88,11 +88,18 @@ php-stan-baseline:
 	$(PHP_CONT) vendor/bin/phpstan analyse --generate-baseline
 
 ## —— Testing` 🚀 ——————————————————————————————————————————————————————————————
+integration-tests-init:
+	$(SYMFONY) --env=test doctrine:database:create
+	$(SYMFONY) --env=test doctrine:schema:create
+
 test-unit:
-	$(PHP_CONT) php bin/phpunit
+	$(PHP_CONT) php bin/phpunit tests/UnitTest
 
 test-unit-coverage: ## Works only if application was started with XDEBUG_MODE=coverage env variable (see make up-with-coverage)
 	$(PHP_CONT) bin/phpunit --coverage-text
 
 test-unit-coverage-report: ## Works only if application was started with XDEBUG_MODE=coverage env variable (see make up-with-coverage)
 	$(PHP_CONT) bin/phpunit --coverage-html tests/.coverage
+
+test-integration:
+	$(PHP_CONT) php bin/phpunit tests/IntegrationTest
