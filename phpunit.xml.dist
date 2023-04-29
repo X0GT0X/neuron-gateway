@@ -19,7 +19,7 @@
             <directory>tests/IntegrationTest</directory>
         </testsuite>
     </testsuites>
-    <coverage/>
+    <coverage includeUncoveredFiles="false"/>
     <source>
         <include>
             <directory suffix=".php">src</directory>
