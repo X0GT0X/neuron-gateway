@@ -1,16 +1,11 @@
 # Neuron Gateway
+[![codecov](https://codecov.io/github/X0GT0X/neuron-gateway/branch/main/graph/badge.svg?token=YBL76RMNL2)](https://codecov.io/github/X0GT0X/neuron-gateway)
+[![CI](https://github.com/X0GT0X/neuron-gateway/actions/workflows/ci.yaml/badge.svg)](https://github.com/X0GT0X/neuron-gateway/actions/workflows/ci.yaml)
 
-## Requirements
-1. Install [Docker](https://docker.com/).
-2. Install [docker-compose](https://docs.docker.com/compose/install/).
+Neuron microservice that process payments.
 
-## Getting Started
-1. Run `make build` to build fresh images
-2. Run `make up` (the logs will be displayed in the current shell)
-3. This application is now available at `https://gateway.localhost`.
-4. Run `make down` to stop the Docker containers.
+## How to run locally
+See the [README](https://github.com/X0GT0X/neuron/blob/main/README.md) of the main Neuron repository.
 
 ## Docs
-1. [TLS Certificates](docs/tls.md)
-2. [Debugging with Xdebug](docs/xdebug.md)
-3. [Troubleshooting](docs/troubleshooting.md)
+1. [Debugging with Xdebug](docs/xdebug.md)
