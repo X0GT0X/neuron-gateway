@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fc27fef4d0eae8188501c88fcca3da68",
+    "content-hash": "11624c2813a01f7a12678d28e79a64b2",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1497,7 +1497,7 @@
             "version": "1.0.5",
             "source": {
                 "type": "git",
-                "url": "git@github.com:X0GT0X/neuron-building-blocks.git",
+                "url": "https://github.com/X0GT0X/neuron-building-blocks.git",
                 "reference": "f3aadb0153c2eb6dff24bc48dd899a17bcb14d7b"
             },
             "require": {
