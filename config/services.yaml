@@ -23,6 +23,7 @@ services:
         exclude:
             - '../src/Infrastructure/Migration/'
             - '../src/Kernel.php'
+            - '../src/UserInterface/Request/'
 
     App\UserInterface\Controller\:
         resource: '../src/UserInterface/Controller/'

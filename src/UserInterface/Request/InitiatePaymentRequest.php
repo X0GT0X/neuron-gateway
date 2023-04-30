@@ -7,7 +7,6 @@ namespace App\UserInterface\Request;
 use App\Domain\Currency;
 use App\Domain\Payment\PaymentType;
 use Neuron\BuildingBlocks\UserInterface\Request\RequestInterface;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 readonly class InitiatePaymentRequest implements RequestInterface
@@ -27,7 +26,7 @@ readonly class InitiatePaymentRequest implements RequestInterface
         #[Assert\Valid]
         public ?PayerRequestData $payer,
         #[Assert\Uuid(message: 'Bank ID should be a valid UUID')]
-        public ?Uuid $bankId = null,
+        public ?string $bankId = null,
     ) {
     }
 }

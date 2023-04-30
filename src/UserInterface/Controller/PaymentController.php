@@ -8,10 +8,13 @@ use App\Application\Contract\GatewayModuleInterface;
 use App\Application\Payment\GetPayment\GetPaymentQuery;
 use App\Application\Payment\InitiatePayment\DTO\PayerDTO;
 use App\Application\Payment\InitiatePayment\InitiatePaymentCommand;
+use App\Application\Payment\UpdatePayment\UpdatePaymentCommand;
 use App\Domain\Currency;
 use App\Domain\Payment\PaymentType;
 use App\UserInterface\Request\InitiatePaymentRequest;
+use App\UserInterface\Request\UpdatePaymentRequest;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Uid\Uuid;
@@ -37,7 +40,7 @@ final readonly class PaymentController
                 (string) $request->payer?->email,
                 (string) $request->payer?->name,
             ),
-            $request->bankId,
+            $request->bankId ? Uuid::fromString($request->bankId) : null,
         ));
 
         return new JsonResponse([
@@ -51,5 +54,21 @@ final readonly class PaymentController
         $payment = $this->gatewayModule->executeQuery(new GetPaymentQuery($paymentId));
 
         return new JsonResponse($this->serializer->serialize($payment, 'json'), json: true);
+    }
+
+    #[Route('/payments/{paymentId}', methods: ['PATCH'])]
+    public function update(UpdatePaymentRequest $request, Uuid $paymentId): JsonResponse
+    {
+        $this->gatewayModule->executeCommand(new UpdatePaymentCommand(
+            $paymentId,
+            null !== $request->payer ? new \App\Application\Payment\UpdatePayment\DTO\PayerDTO(
+                $request->payer->reference,
+                $request->payer->email,
+                $request->payer->name,
+            ) : null,
+            $request->bankId ? Uuid::fromString($request->bankId) : null,
+        ));
+
+        return new JsonResponse(null, Response::HTTP_ACCEPTED);
     }
 }

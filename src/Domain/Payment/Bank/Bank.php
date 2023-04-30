@@ -22,4 +22,9 @@ class Bank extends Entity
     {
         return new self($id, $isReadOnly);
     }
+
+    public function isReadOnly(): bool
+    {
+        return $this->isReadOnly;
+    }
 }

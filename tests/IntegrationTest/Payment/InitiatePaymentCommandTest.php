@@ -125,4 +125,23 @@ class InitiatePaymentCommandTest extends IntegrationTestCase
             null
         ));
     }
+
+    public function testThatThrowsInvalidCommandExceptionIfPayerEmailIsNotAValidEmail(): void
+    {
+        $this->expectException(InvalidCommandException::class);
+        $this->expectExceptionMessage('Invalid command exception');
+
+        $this->gatewayModule->executeCommand(new InitiatePaymentCommand(
+            Currency::PLN,
+            100,
+            PaymentType::OTHER,
+            'uniqueRef',
+            new PayerDTO(
+                'payerRef',
+                'invalid-email',
+                'Payer'
+            ),
+            null
+        ));
+    }
 }

@@ -9,7 +9,10 @@ use App\Domain\Payer\PayerId;
 use App\Domain\Payment\Bank\Bank;
 use App\Domain\Payment\Bank\BankId;
 use App\Domain\Payment\Event\PaymentCreatedDomainEvent;
+use App\Domain\Payment\Event\PaymentUpdatedDomainEvent;
+use App\Domain\Payment\Rule\BankCannotBeSetWhenIsReadOnlyRule;
 use Neuron\BuildingBlocks\Domain\AggregateRootInterface;
+use Neuron\BuildingBlocks\Domain\BusinessRuleValidationException;
 use Neuron\BuildingBlocks\Domain\Entity;
 use Symfony\Component\Uid\Uuid;
 
@@ -73,5 +76,26 @@ class Payment extends Entity implements AggregateRootInterface
         ?BankId $bankId
     ): self {
         return new self($currency, $amount, $type, $uniqueReference, $payerId, $bankId);
+    }
+
+    /**
+     * @throws BusinessRuleValidationException
+     */
+    public function update(?PayerId $payerId, ?BankId $bankId): void
+    {
+        $this->checkRule(new BankCannotBeSetWhenIsReadOnlyRule($this->bank?->isReadOnly()));
+
+        $this->payerId = $payerId ?? $this->payerId;
+        $this->updatedAt = new \DateTimeImmutable();
+
+        if ($bankId !== $this->bank?->id) {
+            $this->bank = Bank::create($bankId, false);
+        }
+
+        $this->addDomainEvent(new PaymentUpdatedDomainEvent(
+            $this->id,
+            $this->payerId,
+            $this->bank?->id,
+        ));
     }
 }
